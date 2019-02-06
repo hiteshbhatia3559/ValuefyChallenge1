@@ -13,3 +13,9 @@ for item in medium_link:
         new_list.append(x)
 
 print(len(new_list))
+
+# roadmap
+# 1. implement tree recursion with repetition checking (could use a dict as a tree data structure? checking possible with that)
+# 2. implement a way to show the tree (pdf? picture? research better method)
+# 3. write readme (deliverable)
+# 4. check for pip-8 compliance (deliverable)
