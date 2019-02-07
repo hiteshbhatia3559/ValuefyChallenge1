@@ -1,6 +1,7 @@
 import re
 import requests
-from anytree import Node, RenderTree, search, render, exporter
+from anytree import Node, RenderTree, search, render
+from anytree.exporter import JsonExporter
 import threading
 import time
 import random
@@ -48,8 +49,9 @@ top_url = "https://medium.com/"
 
 run(top_url)
 elapsed = time.time() - start
+exporter = JsonExporter(indent=2, sort_keys=True)
 with open('tree.txt','w') as WriteFile:
-    WriteFile.write()
+    WriteFile.write(json.dump(exporter.export(internal_url_tree[0])))
 print(RenderTree(internal_url_tree[0], style=render.ContRoundStyle()))
 print('Time elapsed : '+str(elapsed)+' seconds')
 
