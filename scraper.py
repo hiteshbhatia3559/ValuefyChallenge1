@@ -1,19 +1,21 @@
 import re
 import requests
+import anytree
+import threading
 
 url = "https://medium.com/"
 
 response = requests.request("GET",url).text
 medium_link = re.findall(r'"((https)s?://medium\.com/.*?)"',response)
 
-new_list = [] #has all the urls
-for item in medium_link:
-    (x,y) = item
-    if x != 'https://medium.com/':
-        new_list.append(x)
+response = requests.request("GET", url).text
+links = re.findall(r'"((https)s?://medium\.com/.*?)"', response)
+links = list(i[0] for i in links)
 
-print(len(new_list))
-
+links = set(links)
+print(len(links))
+links.remove(url)
+print(len(links))
 # roadmap
 # 1. implement tree recursion with repetition checking (could use a dict as a tree data structure? checking possible with that)
 # 2. implement a way to show the tree (pdf? picture? research better method)
