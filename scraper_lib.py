@@ -1,7 +1,6 @@
 import re
 import requests
 from anytree import Node, RenderTree, search, render
-from anytree.exporter import JsonExporter
 import threading
 import time
 import random
@@ -31,7 +30,8 @@ def run(url):
     print(url)
     #Recursion here
     for item in links:
-        if length > 500:
+
+        if length > 5:
             break
         if item not in visited_urls:
             # print(item+' is child of '+url)
@@ -41,6 +41,7 @@ def run(url):
             visited_urls.append(item)
             internal_url_tree.append(Node(item, parent=search.findall_by_attr(internal_url_tree[0],url)[0]))
             run(item)
+            print(length)
 
 
 
@@ -49,9 +50,6 @@ top_url = "https://medium.com/"
 
 run(top_url)
 elapsed = time.time() - start
-exporter = JsonExporter(indent=2, sort_keys=True)
-with open('tree.txt','w') as WriteFile:
-    WriteFile.write(json.dump(exporter.export(internal_url_tree[0])))
 print(RenderTree(internal_url_tree[0], style=render.ContRoundStyle()))
 print('Time elapsed : '+str(elapsed)+' seconds')
 
