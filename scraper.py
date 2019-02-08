@@ -1,24 +1,51 @@
-import re
 import requests
-import anytree
+from queue import Queue
 import threading
+import time
+import re
+import random
 
-url = "https://medium.com/"
 
-response = requests.request("GET",url).text
-medium_link = re.findall(r'"((https)s?://medium\.com/.*?)"',response)
+length = 0
+visited_urls = []
+internal_url_list = []
+start = time.time()
+thread_list = []
+globalid = ''
 
-response = requests.request("GET", url).text
-links = re.findall(r'"((https)s?://medium\.com/.*?)"', response)
-links = list(i[0] for i in links)
+def make_sleep():
+    time.sleep(random.randint(1, 3))  # So packets dont look suspicious
 
-links = set(links)
-print(len(links))
-links.remove(url)
-print(len(links))
-# roadmap
-# 1. implement tree recursion with repetition checking (could use a dict as a tree data structure? checking possible with that)
-# 2. implement a way to show the tree (pdf? picture? research better method)
-# 3. write readme (deliverable)
-# 4. check for pip-8 compliance (deliverable)
-# 5. implement multithreading (deliverable)
+def get_data(url):
+    global visited_urls
+    response = requests.request("GET", url).text
+    links = re.findall(r'"((https)s?://medium\.com/.*?)"', response)
+    links = list(i[0] for i in links)
+    links = set(links)
+    visited_urls.append(url)
+    return links
+
+def scrape(url):
+    global length
+    global visited_urls
+    global internal_url_list
+    if length is 0:
+        internal_url_list.append(url)
+    links = get_data(url)
+    for item in links:
+
+        if length > 5:
+            break
+        if item not in visited_urls:
+            make_sleep()
+            length += 1
+            visited_urls.append(item)
+            internal_url_list.append(item)
+            scrape(item)
+
+top_url = "https://medium.com/"
+scrape(top_url)
+elapsed = time.time() - start
+# print(RenderTree(internal_url_tree[0], style=render.ContRoundStyle()))
+print('Time elapsed : '+str(elapsed)+' seconds')
+print(visited_urls)

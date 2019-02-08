@@ -1,24 +1,53 @@
+import requests
+from queue import Queue
 import threading
 import time
-
-def sleeper(n, name) :
-    print('Hi, I am {}. Going to sleep for {} seconds \n'.format(name,n))
-    time.sleep(n)
-    print('{} has woken up from sleep \n'.format(name))
+import re
+import random
 
 
-threads_list = []
+length = 0
+visited_urls = []
+internal_url_list = []
 start = time.time()
-for i in range(5):
-    t = threading.Thread(target = sleeper, name='Thread {}'.format(i), args=(5, 'Thread {}'.format(i)))
-    t.start()
-    threads_list.append(t)
-    print('{} has started \n'.format(t.name))
+thread_list = []
+globalid = ''
+
+def make_sleep():
+    time.sleep(random.randint(1, 3))  # So packets dont look suspicious
+
+def get_data(url):
+    global visited_urls
+    response = requests.request("GET", url).text
+    links = re.findall(r'"((https)s?://medium\.com/.*?)"', response)
+    links = list(i[0] for i in links)
+    links = set(links)
+    visited_urls.append(url)
+    return links
+
+def scrape(url):
+    global length
+    global visited_urls
+    global internal_url_list
+    if length is 0:
+        internal_url_list.append(url)
+    links = get_data(url)
+    for item in links:
+
+        if length > 5:
+            break
+        if item not in visited_urls:
+            make_sleep()
+            length += 1
+            visited_urls.append(item)
+            internal_url_list.append(item)
+            scrape(item)
+
+top_url = "https://medium.com/"
 
 
-for i in threads_list:
-    i.join()
-
+scrape(top_url)
 elapsed = time.time() - start
-print('All threads have finished jobs')
-print('Time taken : '+str(elapsed))
+# print(RenderTree(internal_url_tree[0], style=render.ContRoundStyle()))
+print('Time elapsed : '+str(elapsed)+' seconds')
+print(visited_urls)
