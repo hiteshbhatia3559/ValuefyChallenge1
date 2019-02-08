@@ -29,6 +29,6 @@ __Possible improvements__
 1. Code rewrite with parallelism from threading in mind, with job queues
 2. Generalized domain (instead of medium, insert domain and go from there => the regex will need to be rewritten)
 3. Tree representation of URLs (possibly for further analysis of traffic, unrelated to current objective)
-
+4. Predicted time-to-completion (will require around 100 runs with differing lengths so a json can be loaded with possible approximations of how much time it'll take to complete)
 
 

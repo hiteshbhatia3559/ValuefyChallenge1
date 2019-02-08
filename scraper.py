@@ -26,7 +26,7 @@ if __name__ == '__main__':
             links = {}
             #assigns empty links if url getting fails so url skips
         for item in links:
-            if length > 2: #CHANGE THIS NUMBER WITH HOW MANY URLS YOU NEED
+            if length > 50: #CHANGE THIS NUMBER WITH HOW MANY URLS YOU NEED
                 break
             if item not in visited_urls:
                 sl.make_sleep()
@@ -42,6 +42,7 @@ if __name__ == '__main__':
     elapsed = time.time() - start
     print('Time elapsed : '+str(elapsed)+' seconds')
     print(visited_urls)
+    print('Found {} URLs'.format(len(internal_url_list)))
     with open('saved_urls','w') as WriteFile:
         for listed_item in internal_url_list:
             WriteFile.write(listed_item)
