@@ -4,7 +4,6 @@ from anytree import Node, RenderTree, search, render
 import threading
 import time
 import random
-import json
 
 length = 0
 visited_urls = []
