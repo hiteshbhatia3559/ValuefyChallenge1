@@ -40,3 +40,6 @@ if __name__ == '__main__':
     elapsed = time.time() - start
     print('Time elapsed : '+str(elapsed)+' seconds')
     print(visited_urls)
+    with open('saved_urls','w') as WriteFile:
+        for listed_item in internal_url_list:
+            WriteFile.write(listed_item)
