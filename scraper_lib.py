@@ -21,10 +21,6 @@ def run(url):
     links = re.findall(r'"((https)s?://medium\.com/.*?)"', response)
     links = list(i[0] for i in links)
     links = set(links)
-    try:
-        links.remove(url)
-    except:
-        print('')
     visited_urls.append(url)
     print(url)
     #Recursion here
