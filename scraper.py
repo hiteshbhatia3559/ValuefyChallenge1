@@ -18,13 +18,15 @@ if __name__ == '__main__':
             internal_url_list.append(url)
         #BLOCK BELOW IS GETTING ALL LINKS FOR THE URL
         try:
-            links = sl.get_data(url)
+            data_list = sl.get_data(url, visited_urls)
+            links = data_list[0]
+            visited_urls = data_list[1]
         except:
             print('Connection to host not found, skipping url...')
             links = {}
             #assigns empty links if url getting fails so url skips
         for item in links:
-            if length > 10:
+            if length > 2: #CHANGE THIS NUMBER WITH HOW MANY URLS YOU NEED
                 break
             if item not in visited_urls:
                 sl.make_sleep()
@@ -43,3 +45,4 @@ if __name__ == '__main__':
     with open('saved_urls','w') as WriteFile:
         for listed_item in internal_url_list:
             WriteFile.write(listed_item)
+            WriteFile.write(',')
