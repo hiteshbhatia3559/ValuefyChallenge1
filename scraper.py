@@ -3,7 +3,7 @@ import multiprocessing
 import time
 import re
 import random
-import scraper_lib as sl
+import scraperlib as sl
 
 if __name__ == '__main__':
     length = 0
